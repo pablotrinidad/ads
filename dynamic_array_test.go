@@ -7,12 +7,15 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-var unxOpt = cmp.AllowUnexported(Array{})
+var (
+	arrayUnxOpt         = cmp.AllowUnexported(Array{})
+	arrayIterableUnxOpt = cmp.AllowUnexported(ArrayIterable{})
+)
 
 func compareArrays(t *testing.T, want, got *Array, producer string) {
-	if diff := cmp.Diff(want, got, unxOpt); diff != "" {
+	if diff := cmp.Diff(want, got, arrayUnxOpt); diff != "" {
 		t.Fatalf("%s() produced unwanted array: %s\nwant%s\ndiff want -> got\n%s",
-			producer, want, got, diff)
+			producer, got, want, diff)
 	}
 }
 
@@ -319,5 +322,55 @@ func TestArray_String(t *testing.T) {
 				t.Errorf("String() = %s, want %s", got, test.want)
 			}
 		})
+	}
+}
+
+func TestArray_Iterator(t *testing.T) {
+	arr := Array{
+		length:   4,
+		capacity: 6,
+		data:     []interface{}{1, 2, 3, 4, nil, nil, nil, nil},
+	}
+	want := &ArrayIterable{i: 0, a: &arr}
+	got := arr.Iterator()
+	if diff := cmp.Diff(want, got, arrayUnxOpt, arrayIterableUnxOpt); diff != "" {
+		t.Fatalf("Iterator() produced unwanted result: %v\nwant%v\ndiff want -> got\n%s",
+			got, want, diff)
+	}
+}
+
+func TestArrayIterable(t *testing.T) {
+	arr := NewArray()
+	n := 1000
+	want := make([]int, 0, n)
+	for i := 0; i < n; i++ {
+		arr.Add(i)
+		want = append(want, i)
+	}
+	i := arr.Iterator()
+	got := make([]int, 0, arr.Size())
+	for i.Scan() {
+		v, err := i.Next()
+		if err != nil {
+			t.Fatalf("i.Next() got unexpected error %v", err)
+		}
+		got = append(got, v.(int))
+	}
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Errorf("Iterator returned unexpected result: diff want -> got\n%s", diff)
+	}
+}
+
+func TestArrayIterable_Error(t *testing.T) {
+	arr := NewArray()
+	arr.Add(1)
+	arr.Add(2)
+	i := arr.Iterator()
+	for i.Scan() {
+		i.i = -1
+		if _, err := i.Next(); err == nil {
+			t.Errorf("i.Next() returned non-nill error, want index error")
+		}
+		break
 	}
 }

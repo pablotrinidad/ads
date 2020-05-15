@@ -114,8 +114,8 @@ func (a *Array) resize() {
 }
 
 // Iterator returns an array iterator
-func (a *Array) Iterator() Iterable {
-	return ArrayIterable{i: 0, a: a}
+func (a *Array) Iterator() *ArrayIterable {
+	return &ArrayIterable{i: 0, a: a}
 }
 
 // ArrayIterable implements Iterable interface for Array.
@@ -125,11 +125,16 @@ type ArrayIterable struct {
 }
 
 // Scan returns a boolean indicating if there's a next element or not.
-func (i ArrayIterable) Scan() bool {
+func (i *ArrayIterable) Scan() bool {
 	return i.i < i.a.length
 }
 
 // Next returns the next element in the iterable.
-func (i ArrayIterable) Next() (interface{}, error) {
-	return i.a.Get(i.i)
+func (i *ArrayIterable) Next() (interface{}, error) {
+	v, err := i.a.Get(i.i)
+	if err != nil {
+		return nil, err
+	}
+	i.i++
+	return v, nil
 }
