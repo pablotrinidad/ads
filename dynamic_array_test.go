@@ -1,6 +1,7 @@
 package ads
 
 import (
+	"math"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -232,6 +233,90 @@ func TestArray_Get(t *testing.T) {
 			}
 			if v != test.v && !test.mustFail {
 				t.Errorf("Get(%d) = %d, want %d", test.i, v, test.v)
+			}
+		})
+	}
+}
+
+func TestArray_Contains(t *testing.T) {
+	a := Array{
+		length:   11,
+		capacity: 32,
+		data: []interface{}{1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, nil, nil, nil,
+			nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
+			nil},
+	}
+	var count int
+	for i := 0; i <= 1024; i++ {
+		contained := a.Contains(i)
+		if contained {
+			count++
+			b := math.Log2(float64(i))
+			if math.Round(b) != b {
+				t.Errorf("Contains(%d) = true, but element is not in the array %s", i, a)
+			}
+		}
+	}
+	if count != a.Size() {
+		t.Errorf("Got %d elements, must be all (%d)", count, a.Size())
+	}
+}
+
+func TestArray_Size(t *testing.T) {
+	var wantSize int
+	a := NewArray()
+	for i := 0; i <= 1024; i++ {
+		a.Add(i)
+		wantSize++
+	}
+	if wantSize != a.Size() {
+		t.Errorf("Size() = %d, want %d", a.Size(), wantSize)
+	}
+	for i := 0; i <= 10; i++ {
+		a.Remove(int(math.Pow(2, float64(i))))
+		wantSize--
+	}
+	if wantSize != a.Size() {
+		t.Errorf("Size() = %d, want %d", a.Size(), wantSize)
+	}
+}
+
+func TestArray_Empty(t *testing.T) {
+	ref := NewArray()
+	got := NewArray()
+	for i := 0; i < 100; i++ {
+		got.Add(i)
+	}
+	got.Empty()
+	compareArrays(t, &ref, &got, "Empty()")
+}
+
+func TestArray_String(t *testing.T) {
+	tests := []struct {
+		name, want string
+		a          Array
+	}{
+		{
+			name: "empty array",
+			want: "[]",
+			a:    NewArray(),
+		},
+		{
+			name: "one element array",
+			want: "[1]",
+			a:    Array{length: 1, capacity: 1, data: []interface{}{1}},
+		},
+		{
+			name: "multiple elements",
+			want: "[1, 2, 3]",
+			a:    Array{length: 3, capacity: 3, data: []interface{}{1, 2, 3}},
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got := test.a.String()
+			if test.want != got {
+				t.Errorf("String() = %s, want %s", got, test.want)
 			}
 		})
 	}

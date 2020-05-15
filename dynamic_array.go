@@ -69,11 +69,6 @@ func (a *Array) Contains(v interface{}) bool {
 	return false
 }
 
-// Iterator returns an array iterator
-func (a *Array) Iterator() Iterable {
-	return ArrayIterable{i: 0, a: a}
-}
-
 // Size returns the length of the array.
 func (a *Array) Size() int {
 	return int(a.length)
@@ -116,6 +111,11 @@ func (a *Array) resize() {
 	newData := make([]interface{}, a.capacity)
 	copy(newData, a.data)
 	a.data = newData
+}
+
+// Iterator returns an array iterator
+func (a *Array) Iterator() Iterable {
+	return ArrayIterable{i: 0, a: a}
 }
 
 // ArrayIterable implements Iterable interface for Array.
