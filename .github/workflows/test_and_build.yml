@@ -53,15 +53,15 @@ jobs:
         run: imports
         token: ${{ secrets.GITHUB_TOKEN }}
 
-  errcheck:
-    name: Errcheck
+  gofmt:
+    name: gofmt
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
     - name: check
       uses: grandcolline/golang-github-actions@v1.1.0
       with:
-        run: errcheck
+        run: fmtf
         token: ${{ secrets.GITHUB_TOKEN }}
 
   lint:
