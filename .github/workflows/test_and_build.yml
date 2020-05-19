@@ -1,0 +1,76 @@
+on: [push, pull_request]
+name: Test & Build
+jobs:
+  test:
+    strategy:
+      matrix:
+        go: [ '1.12', '1.13', '1.14']
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Setup Go
+        if: success()
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go }}
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run tests
+        run: go test -v -covermode=count
+
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Go
+        if: success()
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go }}
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Compute coverage
+        run: |
+          export PATH=$PATH:$(go env GOPATH)/bin
+          go test -v -covermode=count -coverprofile=coverage.out
+      - name: Convert coverage to lcov
+        uses: jandelgado/gcov2lcov-action@v1.0.0
+        with:
+          infile: coverage.out
+          outfile: coverage.lcov
+      - name: Coveralls
+        uses: coverallsapp/github-action@v1.1.1
+        with:
+            github-token: ${{ secrets.github_token }}
+            path-to-lcov: coverage.lcov
+  imports:
+    name: Check go imports
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: go imports
+      uses: grandcolline/golang-github-actions@v1.1.0
+      with:
+        run: imports
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+  gofmt:
+    name: Check gofmt
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: gofmt
+      uses: grandcolline/golang-github-actions@v1.1.0
+      with:
+        run: fmt
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+  lint:
+    name: Check golint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: golint
+      uses: grandcolline/golang-github-actions@v1.1.0
+      with:
+        run: lint
+        token: ${{ secrets.GITHUB_TOKEN }}
