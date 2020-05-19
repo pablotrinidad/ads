@@ -43,7 +43,7 @@ jobs:
             github-token: ${{ secrets.github_token }}
             path-to-lcov: coverage.lcov
   imports:
-    name: Imports
+    name: Check go imports
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -54,7 +54,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
 
   gofmt:
-    name: gofmt
+    name: Check gofmt
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -65,7 +65,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
 
   lint:
-    name: Lint
+    name: Check golint
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
