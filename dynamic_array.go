@@ -1,5 +1,3 @@
-// package ads exposes the implementation of some algorithms and data structures. This package was
-// not created with production purposes.
 package ads
 
 import (
