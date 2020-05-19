@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: check
+    - name: go imports
       uses: grandcolline/golang-github-actions@v1.1.0
       with:
         run: imports
@@ -58,10 +58,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: check
+    - name: gofmt
       uses: grandcolline/golang-github-actions@v1.1.0
       with:
-        run: fmtf
+        run: fmt
         token: ${{ secrets.GITHUB_TOKEN }}
 
   lint:
@@ -69,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: check
+    - name: golint
       uses: grandcolline/golang-github-actions@v1.1.0
       with:
         run: lint
