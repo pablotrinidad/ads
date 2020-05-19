@@ -1,0 +1,7 @@
+on: [push, pull_request]
+name: Test & Build
+jobs:
+  strategy:
+    matrix:
+      go: [ '1.12', '1.13', '1.14']
+      platform: [ubuntu-latest, macos-latest, windows-latest]
