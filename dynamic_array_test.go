@@ -22,7 +22,7 @@ func compareArrays(t *testing.T, want, got *Array, producer string) {
 func TestArray_NewArray(t *testing.T) {
 	want := Array{length: 0, capacity: 0, data: nil}
 	got := NewArray()
-	compareArrays(t, &want, &got, "NewArray")
+	compareArrays(t, &want, got, "NewArray")
 }
 
 func TestArray_Add(t *testing.T) {
@@ -291,13 +291,13 @@ func TestArray_Empty(t *testing.T) {
 		got.Add(i)
 	}
 	got.Empty()
-	compareArrays(t, &ref, &got, "Empty()")
+	compareArrays(t, ref, got, "Empty()")
 }
 
 func TestArray_String(t *testing.T) {
 	tests := []struct {
 		name, want string
-		a          Array
+		a          *Array
 	}{
 		{
 			name: "empty array",
@@ -307,12 +307,12 @@ func TestArray_String(t *testing.T) {
 		{
 			name: "one element array",
 			want: "[1]",
-			a:    Array{length: 1, capacity: 1, data: []interface{}{1}},
+			a:    &Array{length: 1, capacity: 1, data: []interface{}{1}},
 		},
 		{
 			name: "multiple elements",
 			want: "[1, 2, 3]",
-			a:    Array{length: 3, capacity: 3, data: []interface{}{1, 2, 3}},
+			a:    &Array{length: 3, capacity: 3, data: []interface{}{1, 2, 3}},
 		},
 	}
 	for _, test := range tests {

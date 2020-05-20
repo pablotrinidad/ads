@@ -15,8 +15,8 @@ type Array struct {
 }
 
 // NewArray returns a newly created array of length 0.
-func NewArray() Array {
-	return Array{}
+func NewArray() *Array {
+	return &Array{}
 }
 
 // Add appends a new element to the init.
