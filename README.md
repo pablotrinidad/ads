@@ -9,3 +9,4 @@ Algorithms &amp; Data Structures implemented in Golang.
 ## Data Structures
 
 * [**Dynamic Arrays**](https://en.wikipedia.org/wiki/Dynamic_array)
+* [**Linked Lists**](https://en.wikipedia.org/wiki/Linked_list)
