@@ -156,6 +156,7 @@ func (l *List) Empty() {
 	l.init()
 }
 
+// Size returns the number of elements in the list.
 func (l *List) Size() int {
 	return l.length
 }
@@ -182,6 +183,7 @@ func (l *List) String() string {
 	return b.String()
 }
 
+// Iterator return a linked list iterable.
 func (l *List) Iterator() Iterable {
 	return &ListIterable{l: l, n: l.Head()}
 }
