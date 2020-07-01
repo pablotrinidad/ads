@@ -15,8 +15,8 @@ type Array struct {
 }
 
 // NewArray returns a newly created array of length 0.
-func NewArray() Array {
-	return Array{}
+func NewArray() *Array {
+	return &Array{}
 }
 
 // Add appends a new element to the init.
@@ -112,7 +112,7 @@ func (a *Array) resize() {
 }
 
 // Iterator returns an array iterator
-func (a *Array) Iterator() *ArrayIterable {
+func (a *Array) Iterator() Iterable {
 	return &ArrayIterable{i: 0, a: a}
 }
 
