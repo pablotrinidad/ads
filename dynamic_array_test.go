@@ -340,24 +340,36 @@ func TestArray_Iterator(t *testing.T) {
 }
 
 func TestArrayIterable(t *testing.T) {
-	arr := NewArray()
-	n := 1000
-	want := make([]int, 0, n)
-	for i := 0; i < n; i++ {
-		arr.Add(i)
-		want = append(want, i)
+	tests := []struct {
+		name string
+		n    int
+	}{
+		{name: "empty list", n: 0},
+		{name: "one element", n: 1},
+		{name: "multiple elements", n: 10},
+		{name: "more elements", n: 1000},
 	}
-	i := arr.Iterator()
-	got := make([]int, 0, arr.Size())
-	for i.Scan() {
-		v, err := i.Next()
-		if err != nil {
-			t.Fatalf("i.Next() got unexpected error %v", err)
-		}
-		got = append(got, v.(int))
-	}
-	if diff := cmp.Diff(want, got); diff != "" {
-		t.Errorf("Iterator returned unexpected result: diff want -> got\n%s", diff)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			arr := NewArray()
+			want := make([]int, test.n)
+			for i := 0; i < test.n; i++ {
+				arr.Add(i)
+				want[i] = i
+			}
+			got := make([]int, 0, arr.Size())
+			i := arr.Iterator()
+			for i.Scan() {
+				v, err := i.Next()
+				if err != nil {
+					t.Fatalf("i.Next() got unexpected error %v", err)
+				}
+				got = append(got, v.(int))
+			}
+			if diff := cmp.Diff(want, got); diff != "" {
+				t.Errorf("Iterator returned unexpected result: diff want -> got\n%s", diff)
+			}
+		})
 	}
 }
 
@@ -365,7 +377,7 @@ func TestArrayIterable_Error(t *testing.T) {
 	arr := NewArray()
 	arr.Add(1)
 	arr.Add(2)
-	i := arr.Iterator()
+	i := arr.Iterator().(*ArrayIterable)
 	for i.Scan() {
 		i.i = -1
 		if _, err := i.Next(); err == nil {

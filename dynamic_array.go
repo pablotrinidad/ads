@@ -112,7 +112,7 @@ func (a *Array) resize() {
 }
 
 // Iterator returns an array iterator
-func (a *Array) Iterator() *ArrayIterable {
+func (a *Array) Iterator() Iterable {
 	return &ArrayIterable{i: 0, a: a}
 }
 
