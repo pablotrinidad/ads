@@ -2,7 +2,7 @@ package ads
 
 import "testing"
 
-func logSatisfaction(t *testing.T, ds string, c Container) {
+func logContainerSatisfaction(t *testing.T, ds string, c Container) {
 	t.Helper()
 	t.Logf("%s satisfies Container interface: %v", ds, c)
 }
@@ -14,9 +14,9 @@ func TestContainer_Satisfaction(t *testing.T) {
 
 	// Dynamic array
 	c = NewArray()
-	logSatisfaction(t, "Array", c)
+	logContainerSatisfaction(t, "Array", c)
 
 	// Doubly Linked list
 	ll := NewList()
-	logSatisfaction(t, "Doubly Linked List", ll)
+	logContainerSatisfaction(t, "Doubly Linked List", ll)
 }
