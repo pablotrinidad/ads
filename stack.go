@@ -64,6 +64,9 @@ func (s *ArrayBasedStack) Pop() (interface{}, error) {
 	if s.top < 0 {
 		return nil, fmt.Errorf("empty stack")
 	}
+	v := s.data[s.top]
+	// Avoid memory leaks (free references for garbage collector)
+	s.data[s.top] = nil
 	s.top--
-	return s.data[s.top+1], nil
+	return v, nil
 }
