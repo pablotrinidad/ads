@@ -232,7 +232,7 @@ func TestListIterable_Error(t *testing.T) {
 	l := NewList()
 	i := l.Iterator()
 	if _, err := i.Next(); err == nil {
-		t.Errorf("i.Next() returned non-nill error, want error")
+		t.Errorf("i.Next() returned non-nil error, want error")
 	}
 }
 
