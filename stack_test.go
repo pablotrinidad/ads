@@ -12,9 +12,9 @@ func logStackSatisfaction(t *testing.T, ds string, s Stack) {
 	t.Logf("%s satisfies Stack interface: %v", ds, s)
 }
 
-// TestInterfaceSatisfaction verifies (during compilation) that the
+// TestStackInterfaceSatisfaction verifies (during compilation) that the
 // multiple stack implementations satisfy the Stack interface.
-func TestInterfaceSatisfaction(t *testing.T) {
+func TestStackInterfaceSatisfaction(t *testing.T) {
 	var s Stack
 
 	// Array-based

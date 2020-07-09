@@ -16,8 +16,7 @@ type Stack interface {
 	Pop() (interface{}, error)
 }
 
-// ArrayBasedStack is a Stack that uses a fixed-size slice as the
-// underlying container.
+// ArrayBasedStack is a Stack that uses a fixed-size slice as the underlying container.
 type ArrayBasedStack struct {
 	data      []interface{}
 	top, size int
