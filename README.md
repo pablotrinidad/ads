@@ -8,5 +8,7 @@ Algorithms &amp; Data Structures implemented in Golang.
 
 ## Data Structures
 
-* [**Dynamic Arrays**](https://en.wikipedia.org/wiki/Dynamic_array)
-* [**Linked Lists**](https://en.wikipedia.org/wiki/Linked_list)
+* [**Dynamic Arrays**](https://en.wikipedia.org/wiki/Dynamic_array) [(`dynamic_array.go`)](dynamic_array.go)
+* [**Linked Lists**](https://en.wikipedia.org/wiki/Linked_list) [(`list.go`)](list.go)
+* [**Stacks**](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)) [(`stack.go`)](stack.go)
+* [**Queue**](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) [(`queue.go`)](queue.go)
