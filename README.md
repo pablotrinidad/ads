@@ -12,3 +12,4 @@ Algorithms &amp; Data Structures implemented in Golang.
 * [**Linked Lists**](https://en.wikipedia.org/wiki/Linked_list) [(`list.go`)](list.go)
 * [**Stacks**](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)) [(`stack.go`)](stack.go)
 * [**Queue**](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) [(`queue.go`)](queue.go)
+* [**Hash Table**](https://en.wikipedia.org/wiki/Hash_table) [(`hash_table.go`)](hash_table.go)
