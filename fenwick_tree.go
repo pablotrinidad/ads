@@ -16,7 +16,7 @@ func NewFenwickTree(size int) *FenwickTree {
 
 // Get returns the prefix sum of the first i elements.
 func (t *FenwickTree) Get(i int) (int, error) {
-	if i > t.n {
+	if i <= 0 || i > t.n {
 		return 0, fmt.Errorf("tree size is %d, got query for %d elements", t.n, i)
 	}
 	s := 0
