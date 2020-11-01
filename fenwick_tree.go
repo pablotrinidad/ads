@@ -32,9 +32,7 @@ func (t *FenwickTree) Add(i, value int) error {
 	if i <= 0 || i > t.n {
 		return fmt.Errorf("invalid index %d", i)
 	}
-	fmt.Printf("Adding %d at index %d\n", value, i)
 	for i <= t.n {
-		fmt.Printf("\tindex %d\n", i)
 		t.bit[i] += value
 		i += i & (-i)
 	}
